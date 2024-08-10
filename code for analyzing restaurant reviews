@@ -1,0 +1,84 @@
+import pandas as pd
+
+
+## Sample restaurant reviews data (replace with your own data)
+
+
+data = {
+    "Review": [
+        "Great atmosphere.",
+        "Highly recommend to come to eat.",
+        "Loved the food and the ambiance.",
+        "Perfect cooked.",
+        "Delicious food.",
+        "Pleasant Service.",
+        "Flavourful food items.",
+        "Excellent services.",
+        "Great ambiance.",
+        "Spicy deliciousness.",
+        "Good services.",
+        "Serve primilarly.",
+        "Average food, good service.",
+        "Perfect colour food.",
+        "Tasty and spicy food.",
+        "Good expecations.",
+        "Inconsistent of food quality.",
+        "Perfect food with good taste.",
+        "Impressed for good environment.",
+        "maintain good qulaity of food.",
+        "Poor services.",
+        "Not cooked properly.",
+        "Quality of food.",
+        "Delightfully.",
+        "Maintain a rich flavour food.",
+        "Happy to eat gracious food.",
+        "Freindly services.",
+        "Awesome food.",
+        "Warm services.",
+        "Amazing food.",
+        "Maintanance of grat flavour based on food items.",
+        "Disappointing experience.",
+        "Food was bland and overpriced.",
+        "Not bad but late services.",
+
+    ],
+    "Rating": [4, 4, 5, 5, 5, 5, 4, 5, 5, 4, 3, 3, 3, 5, 5, 4, 2, 5, 5, 4, 2, 2, 5, 5, 4, 5, 3, 5, 4, 5, 4, 3, 2, 1],
+}
+
+# Ensure both lists have the same length - add a dummy rating if needed
+if len(data["Review"]) != len(data["Rating"]):
+    # Assuming 'Rating' is shorter, append a dummy value
+    data["Rating"].append(-1)  # Or any suitable placeholder
+
+# Create a Pandas DataFrame
+df = pd.DataFrame(data)
+
+# Calculate average rating
+average_rating = df["Rating"].mean()
+print("Average rating:", average_rating)
+
+# Find frequent positive and negative words
+positive_words = ["Great atmosphere", "Highly recommend", "Loved", "Perfect", "Delicious", "Pleasant", "Flavourful", "Excellent", "Great ambiance", "Spicy", "Good", "Serve primilarly", "perfect colour", "Tasty", "Good maintanance", "Impressed", "Maintain quality", "Delightfully", "rich flavour", "Gracious", "Freindly", "Awesome", "Warm", "Amazing"]
+negative_words = ["Average", "Inconsistent", "Poor", "Not cooked properly " "Disappointing", "Overpriced", "Late services"]
+
+positive_counts = [
+    len([word for word in review.split() if word in positive_words])
+    for review in df["Review"]
+]
+negative_counts = [
+    len([word for word in review.split() if word in negative_words])
+    for review in df["Review"]
+]
+
+df["Positive_Count"] = positive_counts
+df["Negative_Count"] = negative_counts
+
+# Print most frequent positive and negative words
+print("Most frequent positive words:")
+print(df[df["Positive_Count"] > 0]["Review"])
+
+print("Most frequent negative words:")
+print(df[df["Negative_Count"] > 0]["Review"])
+
+
+
